@@ -2,7 +2,13 @@
 from selenium import webdriver
 from datetime import datetime
 import time, os , json, sys
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
+# CHECKLIST
+# 1. 강의 체크 때 X인지 확인
+# 2. headless모드인지 확인
+# 3. 강의 진짜 듣는지 5초기다리는지 
 
 time_now = datetime.now()
 
@@ -11,8 +17,9 @@ options = webdriver.ChromeOptions()
 options.add_argument('window-size=1920x1080')
 options.add_argument("disable-gpu")
 options.add_argument("disable-infobars")
+options.add_argument("disable-popup-blocking")
 options.add_argument("-start-maximized")
-# options.add_argument("--headless")
+options.add_argument("--headless")
 options.add_argument("--mute-audio")
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
@@ -24,11 +31,9 @@ else:
     driver = webdriver.Chrome(options=options)
 driver.implicitly_wait(3)
 
-
 # json파일 읽어와서 학번 비번 얻기
 with open(os.path.join("./", 'secrets.json'), encoding='UTF8') as f:
     secrets = json.loads(f.read())
-
 
 driver.get('https://plato.pusan.ac.kr/')
 driver.find_element_by_id("input-username").send_keys(secrets["학번"])
@@ -108,18 +113,31 @@ for i in range(1, count_lecture+1):
                     raw_url = file.find_element_by_tag_name('a').get_attribute('onclick')
                     url = raw_url[raw_url.find("https"):raw_url.find("', '', '")]
                     driver.execute_script(f'window.open("{url}");')
-                    driver.switch_to.window(driver.window_handles[1])
-                    try:
-                        driver.switch_to.alert.accept()
-                    except:
-                        pass
-                    temp = driver.page_source
-                    try:
-                        driver.switch_to.alert.accept()
-                    except:
-                        pass
-                    driver.find_element_by_xpath('//*[@id="vod_viewer"]').click()
 
+                    driver.switch_to.window(driver.window_handles[1])
+                    time.sleep(2)
+                    driver.switch_to.window(driver.window_handles[0])
+                    time.sleep(0.5)
+                    driver.switch_to.window(driver.window_handles[1])
+
+                    video_elem = driver.find_element_by_xpath('//*[@id="vod_viewer"]')
+                    video_elem.click()
+                    
+                    # 동영상 시청후 닫아주셔야 머시기 없애기
+                    while True:
+                        time.sleep(1)
+                        elem = video_elem.find_elements_by_xpath('./div')
+                        if len(elem) == 1:
+                            break
+                    
+                    # 몇초 이상 못갑니다~ 없애기
+                    while True:
+                        elem = video_elem.find_elements_by_xpath('./div') 
+                        ActionChains(driver).send_keys(Keys.ARROW_RIGHT).perform()
+                        if len(elem) == 2:
+                            break
+
+                    #time.sleep(5)
                     while True:
                         left_hour = driver.find_element_by_xpath('//*[@id="my-video"]/div[4]/div[7]/div').text
                         if "-0:00" == left_hour:
