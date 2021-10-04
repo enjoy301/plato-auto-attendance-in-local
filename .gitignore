@@ -130,3 +130,5 @@ dmypy.json
 
 # custom
 chromedriver.exe
+test.py
+secrets.json
