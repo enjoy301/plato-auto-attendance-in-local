@@ -24,12 +24,20 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Make secrets.yml
+    - name: Make secrets1.yml
       run: |
-        echo "학번: $STUDENT\n비밀번호: $PW\nbot-token: $BOTTOKEN" >> secrets.yml
+        echo "학번: $STUDENT" >> secrets1.yml
       env: 
         STUDENT: ${{ secrets.STUDENT }}
+    - name: Make secrets2.yml
+      run: |
+        echo "비밀번호: $PW" >> secrets2.yml
+      env:
         PW: ${{ secrets.PW }}
+    - name: Make secrets3.yml
+      run: |
+        echo "bot-token: $BOTTOKEN" >> secrets3.yml
+      env:
         BOTTOKEN: ${{ secrets.BOTTOKEN }}
     - name: Check secrets.yml
       run: |
