@@ -1,3 +1,4 @@
+.idea/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -129,6 +130,6 @@ dmypy.json
 .pyre/
 
 # custom
-chromedriver.exe
+chromedriver
 test.py
-secrets.json
+secrets.yml
