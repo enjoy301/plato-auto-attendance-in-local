@@ -13,6 +13,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class CheckLectures:
     def __init__(self):
+        self.pw = None
+        self.hak = None
         self.my_dict = None
         self.config = None
         self.driver = None
@@ -33,15 +35,21 @@ class CheckLectures:
         self.driver.implicitly_wait(5)
 
     def get_user_information(self):
-        with open(os.path.join("./", 'secrets.yml'), encoding='UTF8') as f:
-            self.config = yaml.load(f, Loader=yaml.BaseLoader)
+        with open(os.path.join("./", 'secrets1.yml'), encoding='UTF8') as f:
+            config = yaml.load(f, Loader=yaml.BaseLoader)
+            self.hak = config['학번']
+            print(self.hak)
+        with open(os.path.join("./", 'secrets2.yml'), encoding='UTF8') as f:
+            config = yaml.load(f, Loader=yaml.BaseLoader)
+            self.pw = config['비밀번호']
+            print(self.pw)
 
     def login(self):
         driver = self.driver
         driver.get('https://plato.pusan.ac.kr/')
         driver.find_element(By.ID, "input-username").send_keys()
-        driver.find_element(By.ID, "input-username").send_keys(self.config["학번"])
-        driver.find_element(By.ID, "input-password").send_keys(self.config["비밀번호"])
+        driver.find_element(By.ID, "input-username").send_keys(self.hak)
+        driver.find_element(By.ID, "input-password").send_keys(self.pw)
         driver.find_element(By.XPATH, '//*[@id="page-header"]/div[1]/div/div[2]/form/div/input[3]').click()
         time.sleep(2)
 
