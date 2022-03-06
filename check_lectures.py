@@ -38,11 +38,9 @@ class CheckLectures:
         with open(os.path.join("./", 'secrets1.yml'), encoding='UTF8') as f:
             config = yaml.load(f, Loader=yaml.BaseLoader)
             self.hak = config['학번']
-            print(self.hak)
         with open(os.path.join("./", 'secrets2.yml'), encoding='UTF8') as f:
             config = yaml.load(f, Loader=yaml.BaseLoader)
             self.pw = config['비밀번호']
-            print(self.pw)
 
     def login(self):
         driver = self.driver
