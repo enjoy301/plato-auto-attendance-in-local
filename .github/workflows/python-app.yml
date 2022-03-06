@@ -39,9 +39,6 @@ jobs:
         echo "bot-token: $BOTTOKEN" >> secrets3.yml
       env:
         BOTTOKEN: ${{ secrets.BOTTOKEN }}
-    - name: Check secrets.yml
-      run: |
-        cat secrets.yml
     - name: Run main.py
       run: |
         python main.py
