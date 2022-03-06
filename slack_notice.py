@@ -1,6 +1,7 @@
 from slack_sdk import WebClient
 import yaml
 import datetime
+import os
 
 
 class SlackApi:
