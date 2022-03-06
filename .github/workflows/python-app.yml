@@ -31,6 +31,9 @@ jobs:
         STUDENT: ${{ secrets.STUDENT }}
         PW: ${{ secrets.PW }}
         BOTTOKEN: ${{ secrets.BOTTOKEN }}
+    - name: Check secrets.yml
+      run: |
+        echo secrets.yml
     - name: Run main.py
       run: |
         python main.py
