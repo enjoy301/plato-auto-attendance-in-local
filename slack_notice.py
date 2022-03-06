@@ -16,8 +16,8 @@ class SlackApi:
         return result
 
 def main(messages):
-    with open('./secrets.yml') as yml:
-        config = yaml.load(yml, Loader=yaml.BaseLoader)
+    with open(os.path.join("./", 'secrets.yml'), encoding='UTF8') as f:
+        config = yaml.load(f, Loader=yaml.BaseLoader)
         bot_token = config['bot-token']
 
     slack = SlackApi(token=bot_token)
