@@ -33,7 +33,7 @@ jobs:
         BOTTOKEN: ${{ secrets.BOTTOKEN }}
     - name: Check secrets.yml
       run: |
-        echo secrets.yml
+        cat secrets.yml
     - name: Run main.py
       run: |
         python main.py
