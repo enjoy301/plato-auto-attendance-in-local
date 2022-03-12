@@ -1,2 +1,3 @@
-# PNU-AutoAttendance
-부산대학교 PLATO 강의 자동 출첵
+# plato-auto-attendance-in-local
+
+this branch has been disabled and moved to [new repository](https://github.com/enjoy301/plato-attendace-slack-notice).
